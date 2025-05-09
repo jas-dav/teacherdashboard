@@ -1140,9 +1140,8 @@
             <div class="select-group">
                 <label>Select Activity</label>
                 <select id="activitySelect" onchange="updateCharts()">
-                    <option value="activity1">Activity 1: Photosynthesis Basics</option>
-                    <option value="activity2">Activity 2: Plant Cell Structures</option>
-                    <option value="activity3">Activity 3: Energy Cycles</option>
+                    <option value="activity1">Activity 1</option>
+                    <option value="activity2">Activity 2</option>
                 </select>
             </div>
         </div>
@@ -1172,17 +1171,14 @@
             <div class="select-group">
                 <label>Select Student</label>
                 <select id="studentSelect" onchange="updateCharts()">
-                    <option value="student1">Emma Johnson</option>
-                    <option value="student2">Michael Chen</option>
-                    <option value="student3">Sophia Rodriguez</option>
+                    <option value="student1">Student 1</option>
+                    <option value="student2">Student 2</option>
                 </select>
             </div>
             <div class="select-group">
                 <label>Select Session</label>
                 <select id="studentSessionSelect" onchange="updateCharts()">
                     <option value="11/10/24">11/10/24 at 9:46am</option>
-                    <option value="11/12/24">11/12/24 at 4:15pm</option>
-                    <option value="11/15/24">11/15/24 at 3:11pm</option>
                     <option value="11/17/24">11/17/24 at 11:08am</option>
                 </select>
             </div>
@@ -1202,7 +1198,7 @@
                         <div class="info-icon" onmouseover="showTooltip('chartTooltip')" onmouseout="hideTooltip('chartTooltip')">i</div>
                         <div id="chartTooltip" class="tooltip">
                             <p><strong>Interaction Guide:</strong></p>
-                            <p>• Hover over a pie section to see the number of mentions</p>
+                            <p>• Hover over a pie section to see the number of key mentions</p>
                             <p>• Click on a pie section to see all mentions of that concept</p>
                         </div>
                     </div>
@@ -1252,23 +1248,23 @@
             activity2: {
                 name: "Plant Cell Structures",
                 concepts: {
-                    "Chloroplast": 32.6,
-                    "Cell Wall": 24.8,
-                    "Vacuole": 17.9,
-                    "Nucleus": 15.2,
-                    "Mitochondria": 9.5
+                    "Photosynthesis": 42.5,
+                    "Glucose": 21.3,
+                    "Carbon Dioxide": 18.7,
+                    "Energy": 12.1,
+                    "Chlorophyll": 5.4
                 }
             },
-            activity3: {
-                name: "Energy Cycles",
-                concepts: {
-                    "Cellular Respiration": 38.2,
-                    "ATP": 25.7,
-                    "Electron Transport": 17.4,
-                    "Krebs Cycle": 11.8,
-                    "Glycolysis": 6.9
-                }
-            }
+            // activity3: {
+            //     name: "Energy Cycles",
+            //     concepts: {
+            //         "Cellular Respiration": 38.2,
+            //         "ATP": 25.7,
+            //         "Electron Transport": 17.4,
+            //         "Krebs Cycle": 11.8,
+            //         "Glycolysis": 6.9
+            //     }
+            // }
         },
         groups: {
             group1: {
@@ -1418,36 +1414,35 @@
                         },
                         mentions: {
                             "Photosynthesis": [
-                                {time: "12:05pm", student: "Emma Johnson", text: "I think plants need sunlight for photosynthesis to work", highlight: "photosynthesis"},
-                                {time: "12:12pm", student: "Emma Johnson", text: "Does photosynthesis happen at night?", highlight: "photosynthesis"},
-                                {time: "12:18pm", student: "Emma Johnson", text: "So photosynthesis creates oxygen as a byproduct?", highlight: "photosynthesis"},
-                                {time: "12:25pm", student: "Emma Johnson", text: "In photosynthesis, water is split into hydrogen and oxygen, right?", highlight: "photosynthesis"},
-                                {time: "12:33pm", student: "Emma Johnson", text: "How efficient is photosynthesis compared to solar panels?", highlight: "photosynthesis"}
+                                {time: "12:05pm", student: "Student 1", text: "I think plants need sunlight for photosynthesis to work", highlight: "photosynthesis"},
+                                {time: "12:12pm", student: "Student 1", text: "Does photosynthesis happen at night?", highlight: "photosynthesis"},
+                                {time: "12:18pm", student: "Student 1", text: "So photosynthesis creates oxygen as a byproduct?", highlight: "photosynthesis"},
+                                {time: "12:25pm", student: "Student 1", text: "In photosynthesis, water is split into hydrogen and oxygen, right?", highlight: "photosynthesis"},
+                                {time: "12:33pm", student: "Student 1", text: "How efficient is photosynthesis compared to solar panels?", highlight: "photosynthesis"}
                             ],
                             "Glucose": [
-                                {time: "12:08pm", student: "Emma Johnson", text: "Is glucose the main product of photosynthesis?", highlight: "glucose"},
-                                {time: "12:22pm", student: "Emma Johnson", text: "Can plants convert glucose to other sugars?", highlight: "glucose"},
-                                {time: "12:37pm", student: "Emma Johnson", text: "Where is glucose stored in plant cells?", highlight: "glucose"}
+                                {time: "12:08pm", student: "Student 1", text: "Is glucose the main product of photosynthesis?", highlight: "glucose"},
+                                {time: "12:22pm", student: "Student 1", text: "Can plants convert glucose to other sugars?", highlight: "glucose"},
+                                {time: "12:37pm", student: "Student 1", text: "Where is glucose stored in plant cells?", highlight: "glucose"}
                             ],
                             "Carbon Dioxide": [
-                                {time: "12:15pm", student: "Emma Johnson", text: "How much carbon dioxide does a typical plant absorb?", highlight: "carbon dioxide"},
-                                {time: "12:28pm", student: "Emma Johnson", text: "Do plants need a minimum level of carbon dioxide to survive?", highlight: "carbon dioxide"}
+                                {time: "12:15pm", student: "Student 1", text: "How much carbon dioxide does a typical plant absorb?", highlight: "carbon dioxide"},
+                                {time: "12:28pm", student: "Student 1", text: "Do plants need a minimum level of carbon dioxide to survive?", highlight: "carbon dioxide"}
                             ],
                             "Energy": [
-                                {time: "12:10pm", student: "Emma Johnson", text: "How is light energy converted to chemical energy?", highlight: "energy"},
-                                {time: "12:30pm", student: "Emma Johnson", text: "Do plants use energy at night?", highlight: "energy"}
+                                {time: "12:10pm", student: "Student 1", text: "How is light energy converted to chemical energy?", highlight: "energy"},
+                                {time: "12:30pm", student: "Student 1", text: "Do plants use energy at night?", highlight: "energy"}
                             ],
                             "Chlorophyll": [
-                                {time: "12:20pm", student: "Emma Johnson", text: "Are there different types of chlorophyll?", highlight: "chlorophyll"}
+                                {time: "12:20pm", student: "Student 1", text: "Are there different types of chlorophyll?", highlight: "chlorophyll"}
                             ]
                         },
                         transcript: [
-                            {time: "12:05pm", speaker: "Emma Johnson", text: "I think plants need sunlight for photosynthesis to work"},
-                            {time: "12:06pm", speaker: "AI Chatbot", text: "That's right! Sunlight provides the energy that powers photosynthesis."},
-                            {time: "12:08pm", speaker: "Emma Johnson", text: "Is glucose the main product of photosynthesis?"},
-                            {time: "12:09pm", speaker: "AI Chatbot", text: "Yes, glucose is the main carbohydrate produced during photosynthesis. Plants then use this glucose for energy and growth."},
-                            {time: "12:10pm", speaker: "Emma Johnson", text: "How is light energy converted to chemical energy?"},
-                            {time: "12:11pm", speaker: "AI Chatbot", text: "Great question! Chlorophyll molecules capture light energy and convert it to chemical energy through a series of reactions in the chloroplasts."}
+                            {time: "12:05pm", speaker: "Student 1", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
+                            {time: "12:06pm", speaker: "AI Chatbot", text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
+                            {time: "12:08pm", speaker: "Student 3", text: "Ut enim ad minim veniam, quis nostrud exercitation?"},
+                            {time: "12:09pm", speaker: "AI Chatbot", text: "Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."},
+                            {time: "12:10pm", speaker: "Student 1", text: "Voluptate velit esse cillum dolore eu fugiat nulla pariatur"},
                         ]
                     }
                 }
@@ -1464,87 +1459,86 @@
                         },
                         mentions: {
                             "Photosynthesis": [
-                                {time: "12:07pm", student: "Michael Chen", text: "Is photosynthesis the same in all plants?", highlight: "photosynthesis"},
-                                {time: "12:21pm", student: "Michael Chen", text: "Can bacteria perform photosynthesis too?", highlight: "photosynthesis"},
-                                {time: "12:35pm", student: "Michael Chen", text: "What's the chemical equation for photosynthesis?", highlight: "photosynthesis"}
+                                {time: "12:07pm", student: "Student 2", text: "Is photosynthesis the same in all plants?", highlight: "photosynthesis"},
+                                {time: "12:21pm", student: "Student 2", text: "Can bacteria perform photosynthesis too?", highlight: "photosynthesis"},
+                                {time: "12:35pm", student: "Student 2", text: "What's the chemical equation for photosynthesis?", highlight: "photosynthesis"}
                             ],
                             "Glucose": [
-                                {time: "12:11pm", student: "Michael Chen", text: "How do plants use glucose for growth?", highlight: "glucose"},
-                                {time: "12:19pm", student: "Michael Chen", text: "Can plants convert glucose back to its components?", highlight: "glucose"},
-                                {time: "12:26pm", student: "Michael Chen", text: "Is glucose directly used or is it converted to something else first?", highlight: "glucose"},
-                                {time: "12:32pm", student: "Michael Chen", text: "What's the molecular structure of glucose?", highlight: "glucose"}
+                                {time: "12:11pm", student: "Student 2", text: "How do plants use glucose for growth?", highlight: "glucose"},
+                                {time: "12:19pm", student: "Student 2", text: "Can plants convert glucose back to its components?", highlight: "glucose"},
+                                {time: "12:26pm", student: "Student 2", text: "Is glucose directly used or is it converted to something else first?", highlight: "glucose"},
+                                {time: "12:32pm", student: "Student 2", text: "What's the molecular structure of glucose?", highlight: "glucose"}
                             ],
                             "Carbon Dioxide": [
-                                {time: "12:10pm", student: "Michael Chen", text: "How do plants capture carbon dioxide?", highlight: "carbon dioxide"},
-                                {time: "12:24pm", student: "Michael Chen", text: "Does carbon dioxide concentration affect photosynthesis rate?", highlight: "carbon dioxide"},
-                                {time: "12:38pm", student: "Michael Chen", text: "Can plants survive in very high carbon dioxide environments?", highlight: "carbon dioxide"}
+                                {time: "12:10pm", student: "Student 2", text: "How do plants capture carbon dioxide?", highlight: "carbon dioxide"},
+                                {time: "12:24pm", student: "Student 2", text: "Does carbon dioxide concentration affect photosynthesis rate?", highlight: "carbon dioxide"},
+                                {time: "12:38pm", student: "Student 2", text: "Can plants survive in very high carbon dioxide environments?", highlight: "carbon dioxide"}
                             ],
                             "Energy": [
-                                {time: "12:16pm", student: "Michael Chen", text: "What percentage of light energy is actually converted to chemical energy?", highlight: "energy"},
-                                {time: "12:29pm", student: "Michael Chen", text: "Is heat energy a byproduct of photosynthesis?", highlight: "energy"}
+                                {time: "12:16pm", student: "Student 2", text: "What percentage of light energy is actually converted to chemical energy?", highlight: "energy"},
+                                {time: "12:29pm", student: "Student 2", text: "Is heat energy a byproduct of photosynthesis?", highlight: "energy"}
                             ],
                             "Chlorophyll": [
-                                {time: "12:13pm", student: "Michael Chen", text: "How is chlorophyll structured at the molecular level?", highlight: "chlorophyll"},
-                                {time: "12:27pm", student: "Michael Chen", text: "What wavelengths of light does chlorophyll absorb?", highlight: "chlorophyll"}
+                                {time: "12:13pm", student: "Student 2", text: "How is chlorophyll structured at the molecular level?", highlight: "chlorophyll"},
+                                {time: "12:27pm", student: "Student 2", text: "What wavelengths of light does chlorophyll absorb?", highlight: "chlorophyll"}
                             ]
                         },
                         transcript: [
-                            {time: "12:07pm", speaker: "Michael Chen", text: "Is photosynthesis the same in all plants?"},
-                            {time: "12:08pm", speaker: "AI Chatbot", text: "While the basic process is the same, there are actually variations in photosynthesis across different plant species. For example, some plants have adaptations for hot, dry environments."},
-                            {time: "12:10pm", speaker: "Michael Chen", text: "How do plants capture carbon dioxide?"},
-                            {time: "12:11pm", speaker: "AI Chatbot", text: "Plants have tiny openings called stomata on their leaves that allow carbon dioxide to enter. Inside the leaf, the carbon dioxide dissolves in the moist cell surfaces where it can be used."},
-                            {time: "12:11pm", speaker: "Michael Chen", text: "How do plants use glucose for growth?"},
-                            {time: "12:12pm", speaker: "AI Chatbot", text: "Plants convert glucose into cellulose to build cell walls, into starch for storage, and they also break it down during cellular respiration to release energy for various cellular processes."}
+                            {time: "12:05pm", speaker: "Student 1", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
+                            {time: "12:06pm", speaker: "AI Chatbot", text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
+                            {time: "12:08pm", speaker: "Student 3", text: "Ut enim ad minim veniam, quis nostrud exercitation?"},
+                            {time: "12:09pm", speaker: "AI Chatbot", text: "Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."},
+                            {time: "12:10pm", speaker: "Student 1", text: "Voluptate velit esse cillum dolore eu fugiat nulla pariatur"},
                         ]
                     }
                 }
             },
-            student3: { // Sophia Rodriguez
-                sessions: {
-                    "11/15/24": {
-                        concepts: {
-                            "Photosynthesis": 18.6,
-                            "Glucose": 19.4,
-                            "Carbon Dioxide": 30.7,
-                            "Energy": 19.8,
-                            "Chlorophyll": 11.5
-                        },
-                        mentions: {
-                            "Photosynthesis": [
-                                {time: "12:06pm", student: "Sophia Rodriguez", text: "How did photosynthesis evolve?", highlight: "photosynthesis"},
-                                {time: "12:19pm", student: "Sophia Rodriguez", text: "Could photosynthesis work on other planets?", highlight: "photosynthesis"}
-                            ],
-                            "Glucose": [
-                                {time: "12:09pm", student: "Sophia Rodriguez", text: "Does the amount of glucose produced vary by plant species?", highlight: "glucose"},
-                                {time: "12:25pm", student: "Sophia Rodriguez", text: "Can glucose be used directly by plants or does it need to be processed?", highlight: "glucose"}
-                            ],
-                            "Carbon Dioxide": [
-                                {time: "12:12pm", student: "Sophia Rodriguez", text: "How much carbon dioxide does a forest remove from the atmosphere?", highlight: "carbon dioxide"},
-                                {time: "12:22pm", student: "Sophia Rodriguez", text: "Is rising carbon dioxide good for plant growth?", highlight: "carbon dioxide"},
-                                {time: "12:31pm", student: "Sophia Rodriguez", text: "How does carbon dioxide enter the plant?", highlight: "carbon dioxide"},
-                                {time: "12:36pm", student: "Sophia Rodriguez", text: "What happens if carbon dioxide levels drop too low for plants?", highlight: "carbon dioxide"}
-                            ],
-                            "Energy": [
-                                {time: "12:15pm", student: "Sophia Rodriguez", text: "Do plants store energy from photosynthesis?", highlight: "energy"},
-                                {time: "12:28pm", student: "Sophia Rodriguez", text: "How much energy can a plant capture in a day?", highlight: "energy"},
-                                {time: "12:34pm", student: "Sophia Rodriguez", text: "Do artificial lights provide the same energy quality as sunlight?", highlight: "energy"}
-                            ],
-                            "Chlorophyll": [
-                                {time: "12:18pm", student: "Sophia Rodriguez", text: "Why are there different types of chlorophyll?", highlight: "chlorophyll"},
-                                {time: "12:29pm", student: "Sophia Rodriguez", text: "Can chlorophyll be artificially synthesized?", highlight: "chlorophyll"}
-                            ]
-                        },
-                        transcript: [
-                            {time: "12:06pm", speaker: "Sophia Rodriguez", text: "How did photosynthesis evolve?"},
-                            {time: "12:07pm", speaker: "AI Chatbot", text: "Photosynthesis likely evolved over 3 billion years ago in cyanobacteria. The ability to use sunlight as an energy source gave these organisms a huge advantage, and later this process was incorporated into plant cells through endosymbiosis."},
-                            {time: "12:09pm", speaker: "Sophia Rodriguez", text: "Does the amount of glucose produced vary by plant species?"},
-                            {time: "12:10pm", speaker: "AI Chatbot", text: "Yes, absolutely! The efficiency of photosynthesis varies between plant species based on their adaptations. Plants in high-light environments like corn or sugarcane can produce more glucose than shade-tolerant plants."},
-                            {time: "12:12pm", speaker: "Sophia Rodriguez", text: "How much carbon dioxide does a forest remove from the atmosphere?"},
-                            {time: "12:13pm", speaker: "AI Chatbot", text: "A mature forest can absorb approximately 6 tons of carbon dioxide per acre annually. This varies by forest type, age, and climate conditions."}
-                        ]
-                    }
-                }
-            }
+            // student3: { // Sophia Rodriguez
+            //     sessions: {
+            //         "11/15/24": {
+            //             concepts: {
+            //                 "Photosynthesis": 18.6,
+            //                 "Glucose": 19.4,
+            //                 "Carbon Dioxide": 30.7,
+            //                 "Energy": 19.8,
+            //                 "Chlorophyll": 11.5
+            //             },
+            //             mentions: {
+            //                 "Photosynthesis": [
+            //                     {time: "12:06pm", student: "Sophia Rodriguez", text: "How did photosynthesis evolve?", highlight: "photosynthesis"},
+            //                     {time: "12:19pm", student: "Sophia Rodriguez", text: "Could photosynthesis work on other planets?", highlight: "photosynthesis"}
+            //                 ],
+            //                 "Glucose": [
+            //                     {time: "12:09pm", student: "Sophia Rodriguez", text: "Does the amount of glucose produced vary by plant species?", highlight: "glucose"},
+            //                     {time: "12:25pm", student: "Sophia Rodriguez", text: "Can glucose be used directly by plants or does it need to be processed?", highlight: "glucose"}
+            //                 ],
+            //                 "Carbon Dioxide": [
+            //                     {time: "12:12pm", student: "Sophia Rodriguez", text: "How much carbon dioxide does a forest remove from the atmosphere?", highlight: "carbon dioxide"},
+            //                     {time: "12:22pm", student: "Sophia Rodriguez", text: "Is rising carbon dioxide good for plant growth?", highlight: "carbon dioxide"},
+            //                     {time: "12:31pm", student: "Sophia Rodriguez", text: "How does carbon dioxide enter the plant?", highlight: "carbon dioxide"},
+            //                     {time: "12:36pm", student: "Sophia Rodriguez", text: "What happens if carbon dioxide levels drop too low for plants?", highlight: "carbon dioxide"}
+            //                 ],
+            //                 "Energy": [
+            //                     {time: "12:15pm", student: "Sophia Rodriguez", text: "Do plants store energy from photosynthesis?", highlight: "energy"},
+            //                     {time: "12:28pm", student: "Sophia Rodriguez", text: "How much energy can a plant capture in a day?", highlight: "energy"},
+            //                     {time: "12:34pm", student: "Sophia Rodriguez", text: "Do artificial lights provide the same energy quality as sunlight?", highlight: "energy"}
+            //                 ],
+            //                 "Chlorophyll": [
+            //                     {time: "12:18pm", student: "Sophia Rodriguez", text: "Why are there different types of chlorophyll?", highlight: "chlorophyll"},
+            //                     {time: "12:29pm", student: "Sophia Rodriguez", text: "Can chlorophyll be artificially synthesized?", highlight: "chlorophyll"}
+            //                 ]
+            //             },
+            //             transcript: [
+            //                 {time: "12:06pm", speaker: "Sophia Rodriguez", text: "How did photosynthesis evolve?"},
+            //                 {time: "12:07pm", speaker: "AI Chatbot", text: "Photosynthesis likely evolved over 3 billion years ago in cyanobacteria. The ability to use sunlight as an energy source gave these organisms a huge advantage, and later this process was incorporated into plant cells through endosymbiosis."},
+            //                 {time: "12:09pm", speaker: "Sophia Rodriguez", text: "Does the amount of glucose produced vary by plant species?"},
+            //                 {time: "12:10pm", speaker: "AI Chatbot", text: "Yes, absolutely! The efficiency of photosynthesis varies between plant species based on their adaptations. Plants in high-light environments like corn or sugarcane can produce more glucose than shade-tolerant plants."},
+            //                 {time: "12:12pm", speaker: "Sophia Rodriguez", text: "How much carbon dioxide does a forest remove from the atmosphere?"},
+            //                 {time: "12:13pm", speaker: "AI Chatbot", text: "A mature forest can absorb approximately 6 tons of carbon dioxide per acre annually. This varies by forest type, age, and climate conditions."}
+            //             ]
+            //         }
+            //     }
+            // }
         }
     };
 
@@ -1560,7 +1554,7 @@
 
     // Initialize charts and views
     function initialize() {
-        switchTab('student');
+        switchTab('activity');
         updateCharts();
 
         // Add event listener to hide mentions container when clicking elsewhere
