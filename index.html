@@ -638,11 +638,11 @@
                 sessions: {
                     "11/15/24": {
                         concepts: {
-                            "Photosynthesis": 38.2,
-                            "Glucose": 22.5,
-                            "Carbon Dioxide": 18.3,
-                            "Energy": 15.8,
-                            "Chlorophyll": 5.2
+                            "Photosynthesis": 5,
+                            "Glucose": 3,
+                            "Carbon Dioxide": 2,
+                            "Energy": 2,
+                            "Chlorophyll": 1
                         },
                         mentions: {
                             "Photosynthesis": [
@@ -666,7 +666,7 @@
                                 {time: "12:30pm", student: "Student 1", text: "Do plants use energy at night?", highlight: "energy"}
                             ],
                             "Chlorophyll": [
-                                {time: "12:20pm", student: "Student Name", text: "Are there different types of chlorophyll?", highlight: "chlorophyll"}
+                                {time: "12:20pm", student: "Student 1", text: "Are there different types of chlorophyll?", highlight: "chlorophyll"}
                             ]
                         },
                         transcript: [
@@ -911,6 +911,95 @@
         document.getElementById('transcriptContainer').classList.remove('visible');
     }
 
+    // function renderPieChart(conceptsData) {
+    //     // Clear any existing chart
+    //     if (myChart) {
+    //         myChart.destroy();
+    //     }
+    //
+    //     const ctx = document.getElementById('conceptsChart').getContext('2d');
+    //
+    //     // Prepare data for chart.js
+    //     const labels = Object.keys(conceptsData);
+    //     const data = Object.values(conceptsData);
+    //
+    //     // Create a color array
+    //     const colors = [
+    //         'rgb(106, 198, 212)', // Photosynthesis (teal)
+    //         'rgb(231, 123, 141)', // Glucose (pink/red)
+    //         'rgb(246, 188, 122)', // Carbon Dioxide (orange)
+    //         'rgb(244, 224, 134)', // Energy (yellow)
+    //         'rgb(108, 148, 231)'  // Chlorophyll (blue)
+    //     ];
+    //
+    //     // Create the pie chart
+    //     myChart = new Chart(ctx, {
+    //         type: 'pie',
+    //         data: {
+    //             labels: labels.map((label, i) => `${label}: ${data[i].toFixed(1)}%`),
+    //             datasets: [{
+    //                 data: data,
+    //                 backgroundColor: colors,
+    //                 borderWidth: 0
+    //             }]
+    //         },
+    //         options: {
+    //             responsive: true,
+    //             maintainAspectRatio: false,
+    //             plugins: {
+    //                 legend: {
+    //                     position: 'left',
+    //                     labels: {
+    //                         boxWidth: 12,
+    //                         padding: 20,
+    //                         font: {
+    //                             size: 12
+    //                         }
+    //                     }
+    //                 },
+    //                 // Disable default Chart.js tooltip
+    //                 tooltip: {
+    //                     enabled: false
+    //                 }
+    //             },
+    //             onClick: (event, elements) => {
+    //                 // Only respond to clicks in group and student tabs
+    //                 if (currentTab !== 'activity' && elements.length > 0) {
+    //                     const index = elements[0].index;
+    //                     // Extract just the concept name without the percentage
+    //                     const concept = labels[index];
+    //                     showConceptMentions(concept);
+    //                 }
+    //             },
+    //             onHover: (event, elements) => {
+    //                 const tooltip = document.getElementById('mentionsTooltip');
+    //
+    //                 if (elements.length > 0) {
+    //                     const index = elements[0].index;
+    //                     const concept = labels[index];
+    //                     const value = data[index];
+    //                     const mentions = Math.round(value);
+    //
+    //                     // Position the tooltip near the hovered element
+    //                     const canvasPosition = event.native.target.getBoundingClientRect();
+    //                     const offsetX = event.native.offsetX;
+    //                     const offsetY = event.native.offsetY;
+    //
+    //                     tooltip.innerHTML = `${concept}<br>${mentions} mentions`;
+    //                     tooltip.style.display = 'block';
+    //                     tooltip.style.left = (offsetX + 10) + 'px';
+    //                     tooltip.style.top = (offsetY + 10) + 'px';
+    //                 } else {
+    //                     tooltip.style.display = 'none';
+    //                 }
+    //             }
+    //         }
+    //     });
+    //
+    //     // Remove any old HTML elements for labels that may have been added
+    //     const oldLabels = document.querySelectorAll('.pie-label');
+    //     oldLabels.forEach(label => label.remove());
+    // }
     function renderPieChart(conceptsData) {
         // Clear any existing chart
         if (myChart) {
@@ -921,7 +1010,11 @@
 
         // Prepare data for chart.js
         const labels = Object.keys(conceptsData);
-        const data = Object.values(conceptsData);
+        const rawCounts = Object.values(conceptsData);
+
+        // Calculate total and convert to percentages
+        const total = rawCounts.reduce((sum, count) => sum + count, 0);
+        const percentages = rawCounts.map(count => (count / total) * 100);
 
         // Create a color array
         const colors = [
@@ -936,9 +1029,10 @@
         myChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: labels.map((label, i) => `${label}: ${data[i].toFixed(1)}%`),
+                // Show both mentions and percentage in the legend labels
+                labels: labels.map((label, i) => `${label}: ${percentages[i].toFixed(1)}%`),
                 datasets: [{
-                    data: data,
+                    data: percentages, // Use percentages for the chart
                     backgroundColor: colors,
                     borderWidth: 0
                 }]
@@ -966,7 +1060,7 @@
                     // Only respond to clicks in group and student tabs
                     if (currentTab !== 'activity' && elements.length > 0) {
                         const index = elements[0].index;
-                        // Extract just the concept name without the percentage
+                        // Extract just the concept name without the count or percentage
                         const concept = labels[index];
                         showConceptMentions(concept);
                     }
@@ -977,8 +1071,7 @@
                     if (elements.length > 0) {
                         const index = elements[0].index;
                         const concept = labels[index];
-                        const value = data[index];
-                        const mentions = Math.round(value);
+                        const mentions = rawCounts[index]; // Use raw counts for tooltip
 
                         // Position the tooltip near the hovered element
                         const canvasPosition = event.native.target.getBoundingClientRect();
@@ -1000,7 +1093,6 @@
         const oldLabels = document.querySelectorAll('.pie-label');
         oldLabels.forEach(label => label.remove());
     }
-
     // Show mentions for a specific concept
     function showConceptMentions(concept) {
         currentConcept = concept;
