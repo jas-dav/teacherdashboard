@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology Class Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            background-color: white;
+        }
+
+
+        .main-content {
+            flex: 1;
+            padding: 20px 40px;
+            margin-left: 60px;
+            width: calc(100% - 60px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .content-wrapper {
+            width: 100%;
+            max-width: 1100px;
+        }
+        .header {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        .subject {
+            color: #666;
+            font-size: 16px;
+        }
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .underline {
+            height: 4px;
+            width: 300px;
+            background-color: #a7e8b9;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .section-description {
+            color: #666;
+            margin-bottom: 30px;
+            max-width: 800px;
+            line-height: 1.5;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .tab {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            background-color: #e9ecef;
+        }
+        .tab.active {
+            background-color: #000;
+            color: white;
+        }
+        .selection-container {
+            background-color: #e6f2ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+        .select-group {
+            margin-bottom: 10px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+        }
+        .dashboard-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 600px;
+        }
+        #mentionsTooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 8px 12px;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            pointer-events: none;
+            display: none;
+            width: 130px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .mentions-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            display: none;
+        }
+        .mentions-container.visible {
+            display: block;
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .session-info {
+            font-size: 16px;
+            color: #666;
+        }
+        .export-btn {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .export-btn span {
+            margin-left: 5px;
+        }
+        .info-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        .mentions-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .mentions-tooltip {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 30px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+            font-size: 14px;
+        }
+        .info-icon:hover + .mentions-tooltip {
+            display: block;
+        }
+        .mentions-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .mention-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .mention-time {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .student-name{
+            color: #4285f4;
+            margin-bottom: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .student-name:hover{
+            text-decoration: underline;
+        }
+        .student-name-transcript {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .mention-text {
+            line-height: 1.5;
+        }
+        .mention-highlight {
+            font-style: italic;
+        }
+
+        /* Transcript View Styling */
+        .transcript-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            display: none;
+        }
+        .transcript-container.visible {
+            display: block;
+        }
+        .transcript-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .transcript-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        /* New alternating gray background for transcript items */
+        .transcript-item:nth-child(odd) {
+            background-color: #f6f6f6;
+        }
+        .back-link {
+            color: #4285f4;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        #canvas-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+        }
+        .mentions-tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px 10px;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            pointer-events: none;
+            display: none;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            max-width: 300px;
+            z-index: 100;
+            right: 20px;
+            top: 60px;
+        }
+        .tooltip.active {
+            display: block !important; /* Use !important to override other styles */
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="header">
+            <div class="subject">Biology</div>
+            <h1 class="title">Class Dashboard</h1>
+            <div class="underline"></div>
+        </div>
+
+        <h2 class="section-title">Key Concepts Distribution</h2>
+        <p class="section-description">
+            Analyze how key concepts are distributed across activities, groups, and individual students.
+        </p>
+
+        <div class="tabs">
+            <div class="tab" >Activity</div>
+            <div class="tab active" onclick="switchTab('group')">Group</div>
+            <div class="tab">Student</div>
+        </div>
+
+        <div class="selection-container">
+            <div class="select-group">
+                <label>Select Group</label>
+                <select id="groupSelect" onchange="updateCharts()">
+                    <option value="group1">Group 1</option>
+                    <option value="group2">Group 2</option>
+                    <option value="group3">Group 3</option>
+                    <option value="group4">Group 4</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label>Select Session</label>
+                <select id="sessionSelect" onchange="updateCharts()">
+                    <option value="11/10/24">11/10/24 at 9:46am</option>
+                    <option value="11/12/24">11/12/24 at 4:15pm</option>
+                    <option value="11/15/24">11/15/24 at 3:11pm</option>
+                    <option value="11/17/24">11/17/24 at 11:08am</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div>
+                        <h3>Group 3</h3>
+                        <div class="session-info">Session 11/15/24</div>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <button class="export-btn">
+                            + <span>Export</span>
+                        </button>
+                        <div class="info-icon" onmouseover="showTooltip('chartTooltip')" onmouseout="hideTooltip('chartTooltip')">i</div>
+                        <div id="chartTooltip" class="tooltip">
+                            <p><strong>Interaction Guide:</strong></p>
+                            <p>• Hover over a pie section to see the number of mentions</p>
+                            <p>• Click on a pie section to see all mentions of that concept</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="canvas-container">
+                    <canvas id="conceptsChart"></canvas>
+                    <div id="mentionsTooltip" class="mentions-tooltip"></div>
+                </div>
+            </div>
+
+            <div id="mentionsContainer" class="mentions-container">
+                <div class="mentions-title">
+                    <h3 id="mentionsTitle">Mentions of Photosynthesis</h3>
+                    <div class="info-icon">i</div>
+                    <div class="mentions-tooltip">Click on student name to view transcript</div>
+                </div>
+                <div id="mentionsList" class="mentions-list">
+                    <!-- Mentions will be populated here -->
+                </div>
+            </div>
+
+            <div id="transcriptContainer" class="transcript-container">
+                <a class="back-link" onclick="showMentions()">← Back to mentions</a>
+                <h3 class="transcript-title">Transcript View</h3>
+                <div id="transcriptList" class="mentions-list">
+                    <!-- Transcript will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mock data
+    const mockData = {
+        groups: {
+            group1: {
+                sessions: {
+                    "11/10/24": {
+                        concepts: {
+                            "Photosynthesis": 15,
+                            "Glucose": 12,
+                            "Carbon Dioxide": 10,
+                            "Energy": 7,
+                            "Chlorophyll": 6
+                        },
+                        mentions: {
+                            "Photosynthesis": [
+                                { "time": "12:03pm", "student": "Student D", "text": "I think photosynthesis uses sunlight to make food", "highlight": "photosynthesis" },
+                                { "time": "12:08pm", "student": "Student E", "text": "Plants need chlorophyll for photosynthesis", "highlight": "photosynthesis" },
+                                { "time": "12:15pm", "student": "Student F", "text": "Does photosynthesis release oxygen?", "highlight": "photosynthesis" },
+                                { "time": "12:18pm", "student": "Student A", "text": "Photosynthesis happens in the leaves, right?", "highlight": "photosynthesis" },
+                                { "time": "12:20pm", "student": "Student C", "text": "Why is photosynthesis important to humans?", "highlight": "photosynthesis" },
+                                { "time": "12:22pm", "student": "Student B", "text": "Photosynthesis is a chemical process", "highlight": "photosynthesis" },
+                                { "time": "12:24pm", "student": "Student E", "text": "Without photosynthesis, there'd be no oxygen", "highlight": "photosynthesis" },
+                                { "time": "12:26pm", "student": "Student F", "text": "I think water is also needed in photosynthesis", "highlight": "photosynthesis" },
+                                { "time": "12:28pm", "student": "Student D", "text": "Photosynthesis needs carbon dioxide too", "highlight": "photosynthesis" },
+                                { "time": "12:30pm", "student": "Student A", "text": "Where does photosynthesis mostly occur?", "highlight": "photosynthesis" },
+                                { "time": "12:32pm", "student": "Student C", "text": "Is photosynthesis affected by temperature?", "highlight": "photosynthesis" },
+                                { "time": "12:34pm", "student": "Student B", "text": "Photosynthesis is slower without sunlight", "highlight": "photosynthesis" },
+                                { "time": "12:36pm", "student": "Student E", "text": "Photosynthesis also produces glucose", "highlight": "photosynthesis" },
+                                { "time": "12:38pm", "student": "Student D", "text": "Can algae do photosynthesis too?", "highlight": "photosynthesis" },
+                                { "time": "12:40pm", "student": "Student F", "text": "Photosynthesis is part of the carbon cycle", "highlight": "photosynthesis" }
+                            ],
+                            "Glucose": [
+                                { "time": "12:05pm", "student": "Student D", "text": "So glucose is the sugar that plants make?", "highlight": "glucose" },
+                                { "time": "12:10pm", "student": "Student F", "text": "I wonder how much glucose a plant produces", "highlight": "glucose" },
+                                { "time": "12:13pm", "student": "Student A", "text": "Glucose is stored in plant roots too", "highlight": "glucose" },
+                                { "time": "12:17pm", "student": "Student C", "text": "What happens to the glucose after it's made?", "highlight": "glucose" },
+                                { "time": "12:19pm", "student": "Student B", "text": "Do animals get glucose by eating plants?", "highlight": "glucose" },
+                                { "time": "12:23pm", "student": "Student E", "text": "Glucose gives plants energy for growth", "highlight": "glucose" },
+                                { "time": "12:25pm", "student": "Student D", "text": "Is glucose part of cellular respiration?", "highlight": "glucose" },
+                                { "time": "12:27pm", "student": "Student F", "text": "I heard glucose can turn into starch", "highlight": "glucose" },
+                                { "time": "12:29pm", "student": "Student A", "text": "Can plants store excess glucose?", "highlight": "glucose" },
+                                { "time": "12:31pm", "student": "Student C", "text": "Glucose is a carbohydrate, right?", "highlight": "glucose" },
+                                { "time": "12:33pm", "student": "Student B", "text": "Is glucose used immediately or stored?", "highlight": "glucose" },
+                                { "time": "12:35pm", "student": "Student E", "text": "Glucose is one of the products of photosynthesis", "highlight": "glucose" }
+                            ],
+                            "Carbon Dioxide": [
+                                { "time": "12:09pm", "student": "Student C", "text": "Plants take in carbon dioxide from the air", "highlight": "carbon dioxide" },
+                                { "time": "12:15pm", "student": "Student A", "text": "So carbon dioxide is used in making glucose?", "highlight": "carbon dioxide" },
+                                { "time": "12:19pm", "student": "Student B", "text": "Is there enough carbon dioxide in the air for plants?", "highlight": "carbon dioxide" },
+                                { "time": "12:27pm", "student": "Student C", "text": "What would happen if there was too much carbon dioxide?", "highlight": "carbon dioxide" },
+                                { "time": "12:30pm", "student": "Student F", "text": "Carbon dioxide comes from us breathing, right?", "highlight": "carbon dioxide" },
+                                { "time": "12:32pm", "student": "Student D", "text": "Carbon dioxide levels affect climate too", "highlight": "carbon dioxide" },
+                                { "time": "12:34pm", "student": "Student A", "text": "Plants help reduce carbon dioxide", "highlight": "carbon dioxide" },
+                                { "time": "12:36pm", "student": "Student E", "text": "Does burning fuel increase carbon dioxide?", "highlight": "carbon dioxide" },
+                                { "time": "12:38pm", "student": "Student B", "text": "Carbon dioxide is a greenhouse gas", "highlight": "carbon dioxide" },
+                                { "time": "12:40pm", "student": "Student C", "text": "What limits the carbon dioxide plants can absorb?", "highlight": "carbon dioxide" }
+                            ],
+                            "Energy": [
+                                { "time": "12:06pm", "student": "Student A", "text": "Photosynthesis turns light into energy", "highlight": "energy" },
+                                { "time": "12:12pm", "student": "Student B", "text": "Where does the energy from sunlight go?", "highlight": "energy" },
+                                { "time": "12:16pm", "student": "Student E", "text": "Glucose stores energy from the sun", "highlight": "energy" },
+                                { "time": "12:20pm", "student": "Student C", "text": "Energy is released when glucose is broken down", "highlight": "energy" },
+                                { "time": "12:26pm", "student": "Student F", "text": "Plants use that energy to grow", "highlight": "energy" },
+                                { "time": "12:28pm", "student": "Student D", "text": "Is light the only energy source for plants?", "highlight": "energy" },
+                                { "time": "12:35pm", "student": "Student A", "text": "How efficient is energy conversion in photosynthesis?", "highlight": "energy" }
+                            ],
+                            "Chlorophyll": [
+                                { "time": "12:05pm", "student": "Student D", "text": "Is chlorophyll in all plants?", "highlight": "chlorophyll" },
+                                { "time": "12:10pm", "student": "Student F", "text": "Can we extract chlorophyll from leaves?", "highlight": "chlorophyll" },
+                                { "time": "12:14pm", "student": "Student E", "text": "Chlorophyll gives leaves their green color", "highlight": "chlorophyll" },
+                                { "time": "12:21pm", "student": "Student A", "text": "Does chlorophyll absorb all colors of light?", "highlight": "chlorophyll" },
+                                { "time": "12:29pm", "student": "Student C", "text": "What happens if a plant has no chlorophyll?", "highlight": "chlorophyll" },
+                                { "time": "12:37pm", "student": "Student B", "text": "Chlorophyll is essential for capturing sunlight", "highlight": "chlorophyll" }
+                            ]
+                        },
+                        transcript: [
+                            {time: "12:03pm", speaker: "Student D", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
+                            {time: "12:04pm", speaker: "AI Chatbot", text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
+                            {time: "12:05pm", speaker: "Student D", text: "Ut enim ad minim veniam, quis nostrud exercitation?"},
+                            {time: "12:06pm", speaker: "AI Chatbot", text: "Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."},
+                            {time: "12:08pm", speaker: "Student E", text: "Voluptate velit esse cillum dolore eu fugiat nulla pariatur"},
+                            {time: "12:09pm", speaker: "AI Chatbot", text: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia."},
+                            {time: "12:10pm", speaker: "Student F", text: "Deserunt mollit anim id est laborum sed ut perspiciatis"},
+                            {time: "12:11pm", speaker: "AI Chatbot", text: "Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."},
+                            {time: "12:15pm", speaker: "Student F", text: "Totam rem aperiam, eaque ipsa quae ab illo inventore?"},
+                            {time: "12:16pm", speaker: "AI Chatbot", text: "Veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem."}
+                        ]
+                    }
+                }
+            },
+            group3: {
+                sessions: {
+                    "11/15/24": {
+                        concepts: {
+                            "Photosynthesis": 31.9,
+                            "Glucose": 25.5,
+                            "Carbon Dioxide": 21.3,
+                            "Energy": 12.8,
+                            "Chlorophyll": 8.5
+                        },
+                        mentions: {
+                            "Photosynthesis": [
+                                {time: "12:05pm", student: "Student A", text: "I think plants absorb sunlight in photosynthesis", highlight: "photosynthesis"},
+                                {time: "12:11pm", student: "Student C", text: "Yeah, that makes sense about photosynthesis", highlight: "photosynthesis"},
+                                {time: "12:14pm", student: "Student B", text: "Do plants make oxygen during photosynthesis?", highlight: "photosynthesis"}
+                            ],
+                            "Glucose": [
+                                {time: "12:07pm", student: "Student A", text: "So the plant is making glucose as food?", highlight: "glucose"},
+                                {time: "12:12pm", student: "Student B", text: "Is glucose a type of sugar?", highlight: "glucose"}
+                            ],
+                            "Carbon Dioxide": [
+                                {time: "12:09pm", student: "Student C", text: "Plants take in carbon dioxide from the air", highlight: "carbon dioxide"},
+                                {time: "12:15pm", student: "Student A", text: "So carbon dioxide is used in making glucose?", highlight: "carbon dioxide"}
+                            ],
+                            "Energy": [
+                                {time: "12:18pm", student: "Student B", text: "Does photosynthesis produce energy?", highlight: "energy"}
+                            ],
+                            "Chlorophyll": [
+                                {time: "12:20pm", student: "Student A", text: "Why is chlorophyll green?", highlight: "chlorophyll"}
+                            ]
+                        },
+                        transcript: [
+                            {time: "12:03pm", speaker: "Student D", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
+                            {time: "12:04pm", speaker: "AI Chatbot", text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
+                            {time: "12:05pm", speaker: "Student D", text: "Ut enim ad minim veniam, quis nostrud exercitation?"},
+                            {time: "12:06pm", speaker: "AI Chatbot", text: "Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."},
+                            {time: "12:08pm", speaker: "Student E", text: "Voluptate velit esse cillum dolore eu fugiat nulla pariatur"},
+                            {time: "12:09pm", speaker: "AI Chatbot", text: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia."},
+                            {time: "12:10pm", speaker: "Student F", text: "Deserunt mollit anim id est laborum sed ut perspiciatis"},
+                            {time: "12:11pm", speaker: "AI Chatbot", text: "Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."},
+                            {time: "12:15pm", speaker: "Student F", text: "Totam rem aperiam, eaque ipsa quae ab illo inventore?"},
+                            {time: "12:16pm", speaker: "AI Chatbot", text: "Veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem."}
+                        ]
+                    }
+                }
+            }
+        }
+    };
+
+    // Current view state
+    let currentTab = 'group';
+    let currentGroup = 'group3';
+    let currentSession = '11/15/24';
+    let currentConcept = null;
+    let myChart = null;
+    let chartTooltipVisible = false;
+
+    // Initialize charts and views
+    function initialize() {
+        updateCharts();
+
+        // Add event listener to hide mentions container when clicking elsewhere
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.chart-container') &&
+                !event.target.closest('.mentions-container') &&
+                !event.target.closest('.transcript-container')) {
+                document.getElementById('mentionsContainer').classList.remove('visible');
+                document.getElementById('transcriptContainer').classList.remove('visible');
+            }
+        });
+    }
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab:nth-child(${tab === 'activity' ? 1 : tab === 'group' ? 2 : 3})`).classList.add('active');
+        updateCharts();
+
+        // Hide mentions container when switching tabs
+        document.getElementById('mentionsContainer').classList.remove('visible');
+        document.getElementById('transcriptContainer').classList.remove('visible');
+    }
+
+    function updateCharts() {
+        currentGroup = document.getElementById('groupSelect').value;
+        currentSession = document.getElementById('sessionSelect').value;
+
+        // Update group and session display
+        document.querySelector('.chart-header h3').textContent = `Group ${currentGroup.replace('group', '')}`;
+        document.querySelector('.session-info').textContent = `Session ${currentSession}`;
+
+        // Get data for selected group and session
+        let groupData;
+
+        // If we have real data for this selection, use it
+        if (mockData.groups[currentGroup] &&
+            mockData.groups[currentGroup].sessions[currentSession]) {
+            groupData = mockData.groups[currentGroup].sessions[currentSession];
+        } else {
+            // Otherwise use mock data from group3
+            groupData = mockData.groups.group3.sessions["11/15/24"];
+        }
+
+        // Render the pie chart
+        renderPieChart(groupData.concepts);
+
+        // Hide mentions container
+        document.getElementById('mentionsContainer').classList.remove('visible');
+        document.getElementById('transcriptContainer').classList.remove('visible');
+    }
+
+    function renderPieChart(conceptsData) {
+        // Clear any existing chart
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        const ctx = document.getElementById('conceptsChart').getContext('2d');
+
+        // Prepare data for chart.js
+        const labels = Object.keys(conceptsData);
+        const data = Object.values(conceptsData);
+
+        // Create a color array
+        const colors = [
+            'rgb(106, 198, 212)', // Photosynthesis (teal)
+            'rgb(231, 123, 141)', // Glucose (pink/red)
+            'rgb(246, 188, 122)', // Carbon Dioxide (orange)
+            'rgb(244, 224, 134)', // Energy (yellow)
+            'rgb(108, 148, 231)'  // Chlorophyll (blue)
+        ];
+
+        // Create the pie chart
+        myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels.map((label, i) => `${label}: ${data[i].toFixed(1)}%`),
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'left',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 20,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    // Disable default Chart.js tooltip
+                    tooltip: {
+                        enabled: false
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        // Extract just the concept name without the percentage
+                        const concept = labels[index];
+                        showConceptMentions(concept);
+                    }
+                },
+                onHover: (event, elements) => {
+                    const tooltip = document.getElementById('mentionsTooltip');
+
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const concept = labels[index];
+                        const value = data[index];
+                        const mentions = Math.round(value);
+
+                        // Position the tooltip near the hovered element
+                        const canvasPosition = event.native.target.getBoundingClientRect();
+                        const offsetX = event.native.offsetX;
+                        const offsetY = event.native.offsetY;
+
+                        tooltip.innerHTML = `${concept}<br>${mentions} mentions`;
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = (offsetX + 10) + 'px';
+                        tooltip.style.top = (offsetY + 10) + 'px';
+                    } else {
+                        tooltip.style.display = 'none';
+                    }
+                }
+            }
+        });
+
+        // Remove any old HTML elements for labels that may have been added
+        const oldLabels = document.querySelectorAll('.pie-label');
+        oldLabels.forEach(label => label.remove());
+    }
+
+    // Show mentions for a specific concept
+    function showConceptMentions(concept) {
+        currentConcept = concept;
+
+        // Get the mentions for the selected concept
+        const groupData = mockData.groups[currentGroup]?.sessions[currentSession] ||
+            mockData.groups.group3.sessions["11/15/24"];
+
+        const mentions = groupData.mentions[concept] || [];
+
+        // Update mentions title
+        document.getElementById('mentionsTitle').textContent = `Mentions of ${concept}`;
+
+        // Populate mentions list
+        const mentionsList = document.getElementById('mentionsList');
+        mentionsList.innerHTML = '';
+
+        if (mentions.length === 0) {
+            mentionsList.innerHTML = '<p>No mentions found for this concept.</p>';
+        } else {
+            mentions.forEach(mention => {
+                const mentionItem = document.createElement('div');
+                mentionItem.className = 'mention-item';
+
+                const timeElem = document.createElement('div');
+                timeElem.className = 'mention-time';
+                timeElem.textContent = mention.time;
+                mentionItem.appendChild(timeElem);
+
+                const studentElem = document.createElement('div');
+                studentElem.className = 'student-name';
+                studentElem.textContent = mention.student;
+                studentElem.onclick = () => showTranscript(mention.student);
+                mentionItem.appendChild(studentElem);
+
+                const textElem = document.createElement('div');
+                textElem.className = 'mention-text';
+                textElem.innerHTML = formatMentionText(mention.text, mention.highlight);
+                mentionItem.appendChild(textElem);
+
+                mentionsList.appendChild(mentionItem);
+            });
+        }
+
+        // Show the mentions container
+        document.getElementById('mentionsContainer').classList.add('visible');
+        document.getElementById('transcriptContainer').classList.remove('visible');
+    }
+
+    // Show transcript for a student
+    function showTranscript(student) {
+        // Get the transcript
+        const groupData = mockData.groups[currentGroup]?.sessions[currentSession] ||
+            mockData.groups.group3.sessions["11/15/24"];
+
+        const transcript = groupData.transcript || [];
+
+        // Populate transcript list
+        const transcriptList = document.getElementById('transcriptList');
+        transcriptList.innerHTML = '';
+
+        if (transcript.length === 0) {
+            transcriptList.innerHTML = '<p>No transcript available for this session.</p>';
+        } else {
+            transcript.forEach(item => {
+                const transcriptItem = document.createElement('div');
+                transcriptItem.className = 'transcript-item';
+
+                const timeElem = document.createElement('div');
+                timeElem.className = 'mention-time';
+                timeElem.textContent = item.time;
+                transcriptItem.appendChild(timeElem);
+
+                const speakerElem = document.createElement('div');
+                speakerElem.className = 'student-name-transcript';
+                speakerElem.textContent = item.speaker;
+                transcriptItem.appendChild(speakerElem);
+
+                const textElem = document.createElement('div');
+                textElem.className = 'mention-text';
+                textElem.innerHTML = formatMentionText(item.text, currentConcept);
+                transcriptItem.appendChild(textElem);
+
+                transcriptList.appendChild(transcriptItem);
+            });
+        }
+
+        // Show the transcript container
+        document.getElementById('transcriptContainer').classList.add('visible');
+        document.getElementById('mentionsContainer').classList.remove('visible');
+    }
+
+    // Go back to mentions view
+    function showMentions() {
+        document.getElementById('mentionsContainer').classList.add('visible');
+        document.getElementById('transcriptContainer').classList.remove('visible');
+    }
+
+    // Format mention text to highlight concepts
+    function formatMentionText(text, highlight) {
+        if (!highlight || !text.toLowerCase().includes(highlight.toLowerCase())) {
+            return text;
+        }
+
+        const regex = new RegExp(`(${highlight})`, 'gi');
+        return text.replace(regex, '<span class="mention-highlight">$1</span>');
+    }
+
+    // Remove unused functions
+    function showTooltip(tooltipId) {
+        document.getElementById(tooltipId).classList.add('active');
+    }
+
+    function hideTooltip(tooltipId) {
+        document.getElementById(tooltipId).classList.remove('active');
+    }
+
+    // Initialize everything on load
+    window.onload = initialize;
+</script>
+</body>
+</html>
