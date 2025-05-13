@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biology Class Dashboard</title>
+    <title>Teachers Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         * {
@@ -345,7 +345,7 @@
                 <select id="groupSelect" onchange="updateCharts()">
                     <option value="group1">Group 1</option>
                     <option value="group2">Group 2</option>
-                    <option value="group3">Group 3</option>
+                    <option value="othergroup">Group 3</option>
                 </select>
             </div>
             <div class="select-group">
@@ -363,7 +363,6 @@
                 <label>Select Student</label>
                 <select id="studentSelect" onchange="updateCharts()">
                     <option value="student1">Student 1</option>
-<!--                    <option value="student2">Student 2</option>-->
                 </select>
             </div>
             <div class="select-group">
@@ -446,16 +445,6 @@
                     "Chlorophyll": 5.4
                 }
             },
-            // activity3: {
-            //     name: "Energy Cycles",
-            //     concepts: {
-            //         "Cellular Respiration": 38.2,
-            //         "ATP": 25.7,
-            //         "Electron Transport": 17.4,
-            //         "Krebs Cycle": 11.8,
-            //         "Glycolysis": 6.9
-            //     }
-            // }
         },
         groups: {
             group1: {
@@ -545,7 +534,7 @@
                     }
                 }
             },
-            group3: {
+            othergroup: {
                 sessions: {
                     "11/15/24": {
                         concepts: {
@@ -634,7 +623,7 @@
             }
         },
         students: {
-            student1: { // Emma Johnson
+            student1: {
                 sessions: {
                     "11/15/24": {
                         concepts: {
@@ -679,104 +668,12 @@
                     }
                 }
             },
-            student2: { // Michael Chen
-                sessions: {
-                    "11/15/24": {
-                        concepts: {
-                            "Photosynthesis": 25.7,
-                            "Glucose": 31.8,
-                            "Carbon Dioxide": 22.5,
-                            "Energy": 10.2,
-                            "Chlorophyll": 9.8
-                        },
-                        mentions: {
-                            "Photosynthesis": [
-                                {time: "12:07pm", student: "Student 2", text: "Is photosynthesis the same in all plants?", highlight: "photosynthesis"},
-                                {time: "12:21pm", student: "Student 2", text: "Can bacteria perform photosynthesis too?", highlight: "photosynthesis"},
-                                {time: "12:35pm", student: "Student 2", text: "What's the chemical equation for photosynthesis?", highlight: "photosynthesis"}
-                            ],
-                            "Glucose": [
-                                {time: "12:11pm", student: "Student 2", text: "How do plants use glucose for growth?", highlight: "glucose"},
-                                {time: "12:19pm", student: "Student 2", text: "Can plants convert glucose back to its components?", highlight: "glucose"},
-                                {time: "12:26pm", student: "Student 2", text: "Is glucose directly used or is it converted to something else first?", highlight: "glucose"},
-                                {time: "12:32pm", student: "Student 2", text: "What's the molecular structure of glucose?", highlight: "glucose"}
-                            ],
-                            "Carbon Dioxide": [
-                                {time: "12:10pm", student: "Student 2", text: "How do plants capture carbon dioxide?", highlight: "carbon dioxide"},
-                                {time: "12:24pm", student: "Student 2", text: "Does carbon dioxide concentration affect photosynthesis rate?", highlight: "carbon dioxide"},
-                                {time: "12:38pm", student: "Student 2", text: "Can plants survive in very high carbon dioxide environments?", highlight: "carbon dioxide"}
-                            ],
-                            "Energy": [
-                                {time: "12:16pm", student: "Student 2", text: "What percentage of light energy is actually converted to chemical energy?", highlight: "energy"},
-                                {time: "12:29pm", student: "Student 2", text: "Is heat energy a byproduct of photosynthesis?", highlight: "energy"}
-                            ],
-                            "Chlorophyll": [
-                                {time: "12:13pm", student: "Student 2", text: "How is chlorophyll structured at the molecular level?", highlight: "chlorophyll"},
-                                {time: "12:27pm", student: "Student 2", text: "What wavelengths of light does chlorophyll absorb?", highlight: "chlorophyll"}
-                            ]
-                        },
-                        transcript: [
-                            {time: "12:05pm", speaker: "Student 1", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"},
-                            {time: "12:06pm", speaker: "AI Chatbot", text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
-                            {time: "12:08pm", speaker: "Student 3", text: "Ut enim ad minim veniam, quis nostrud exercitation?"},
-                            {time: "12:09pm", speaker: "AI Chatbot", text: "Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."},
-                            {time: "12:10pm", speaker: "Student 1", text: "Voluptate velit esse cillum dolore eu fugiat nulla pariatur"},
-                        ]
-                    }
-                }
-            },
-            // student3: { // Sophia Rodriguez
-            //     sessions: {
-            //         "11/15/24": {
-            //             concepts: {
-            //                 "Photosynthesis": 18.6,
-            //                 "Glucose": 19.4,
-            //                 "Carbon Dioxide": 30.7,
-            //                 "Energy": 19.8,
-            //                 "Chlorophyll": 11.5
-            //             },
-            //             mentions: {
-            //                 "Photosynthesis": [
-            //                     {time: "12:06pm", student: "Sophia Rodriguez", text: "How did photosynthesis evolve?", highlight: "photosynthesis"},
-            //                     {time: "12:19pm", student: "Sophia Rodriguez", text: "Could photosynthesis work on other planets?", highlight: "photosynthesis"}
-            //                 ],
-            //                 "Glucose": [
-            //                     {time: "12:09pm", student: "Sophia Rodriguez", text: "Does the amount of glucose produced vary by plant species?", highlight: "glucose"},
-            //                     {time: "12:25pm", student: "Sophia Rodriguez", text: "Can glucose be used directly by plants or does it need to be processed?", highlight: "glucose"}
-            //                 ],
-            //                 "Carbon Dioxide": [
-            //                     {time: "12:12pm", student: "Sophia Rodriguez", text: "How much carbon dioxide does a forest remove from the atmosphere?", highlight: "carbon dioxide"},
-            //                     {time: "12:22pm", student: "Sophia Rodriguez", text: "Is rising carbon dioxide good for plant growth?", highlight: "carbon dioxide"},
-            //                     {time: "12:31pm", student: "Sophia Rodriguez", text: "How does carbon dioxide enter the plant?", highlight: "carbon dioxide"},
-            //                     {time: "12:36pm", student: "Sophia Rodriguez", text: "What happens if carbon dioxide levels drop too low for plants?", highlight: "carbon dioxide"}
-            //                 ],
-            //                 "Energy": [
-            //                     {time: "12:15pm", student: "Sophia Rodriguez", text: "Do plants store energy from photosynthesis?", highlight: "energy"},
-            //                     {time: "12:28pm", student: "Sophia Rodriguez", text: "How much energy can a plant capture in a day?", highlight: "energy"},
-            //                     {time: "12:34pm", student: "Sophia Rodriguez", text: "Do artificial lights provide the same energy quality as sunlight?", highlight: "energy"}
-            //                 ],
-            //                 "Chlorophyll": [
-            //                     {time: "12:18pm", student: "Sophia Rodriguez", text: "Why are there different types of chlorophyll?", highlight: "chlorophyll"},
-            //                     {time: "12:29pm", student: "Sophia Rodriguez", text: "Can chlorophyll be artificially synthesized?", highlight: "chlorophyll"}
-            //                 ]
-            //             },
-            //             transcript: [
-            //                 {time: "12:06pm", speaker: "Sophia Rodriguez", text: "How did photosynthesis evolve?"},
-            //                 {time: "12:07pm", speaker: "AI Chatbot", text: "Photosynthesis likely evolved over 3 billion years ago in cyanobacteria. The ability to use sunlight as an energy source gave these organisms a huge advantage, and later this process was incorporated into plant cells through endosymbiosis."},
-            //                 {time: "12:09pm", speaker: "Sophia Rodriguez", text: "Does the amount of glucose produced vary by plant species?"},
-            //                 {time: "12:10pm", speaker: "AI Chatbot", text: "Yes, absolutely! The efficiency of photosynthesis varies between plant species based on their adaptations. Plants in high-light environments like corn or sugarcane can produce more glucose than shade-tolerant plants."},
-            //                 {time: "12:12pm", speaker: "Sophia Rodriguez", text: "How much carbon dioxide does a forest remove from the atmosphere?"},
-            //                 {time: "12:13pm", speaker: "AI Chatbot", text: "A mature forest can absorb approximately 6 tons of carbon dioxide per acre annually. This varies by forest type, age, and climate conditions."}
-            //             ]
-            //         }
-            //     }
-            // }
         }
     };
 
     // Current view state
     let currentTab = 'student';
-    let currentGroup = 'group3';
+    let currentGroup = 'othergroup';
     let currentStudent = 'student1';
     let currentActivity = 'activity1';
     let currentSession = '11/15/24';
@@ -881,8 +778,8 @@
                 mockData.groups[currentGroup].sessions[currentSession]) {
                 chartData = mockData.groups[currentGroup].sessions[currentSession];
             } else {
-                // Otherwise use mock data from group3
-                chartData = mockData.groups.group3.sessions["11/15/24"];
+                // Otherwise use mock data from othergroup
+                chartData = mockData.groups.othergroup.sessions["11/15/24"];
             }
         } else if (currentTab === 'student') {
             // If we have real data for this selection, use it
@@ -911,95 +808,6 @@
         document.getElementById('transcriptContainer').classList.remove('visible');
     }
 
-    // function renderPieChart(conceptsData) {
-    //     // Clear any existing chart
-    //     if (myChart) {
-    //         myChart.destroy();
-    //     }
-    //
-    //     const ctx = document.getElementById('conceptsChart').getContext('2d');
-    //
-    //     // Prepare data for chart.js
-    //     const labels = Object.keys(conceptsData);
-    //     const data = Object.values(conceptsData);
-    //
-    //     // Create a color array
-    //     const colors = [
-    //         'rgb(106, 198, 212)', // Photosynthesis (teal)
-    //         'rgb(231, 123, 141)', // Glucose (pink/red)
-    //         'rgb(246, 188, 122)', // Carbon Dioxide (orange)
-    //         'rgb(244, 224, 134)', // Energy (yellow)
-    //         'rgb(108, 148, 231)'  // Chlorophyll (blue)
-    //     ];
-    //
-    //     // Create the pie chart
-    //     myChart = new Chart(ctx, {
-    //         type: 'pie',
-    //         data: {
-    //             labels: labels.map((label, i) => `${label}: ${data[i].toFixed(1)}%`),
-    //             datasets: [{
-    //                 data: data,
-    //                 backgroundColor: colors,
-    //                 borderWidth: 0
-    //             }]
-    //         },
-    //         options: {
-    //             responsive: true,
-    //             maintainAspectRatio: false,
-    //             plugins: {
-    //                 legend: {
-    //                     position: 'left',
-    //                     labels: {
-    //                         boxWidth: 12,
-    //                         padding: 20,
-    //                         font: {
-    //                             size: 12
-    //                         }
-    //                     }
-    //                 },
-    //                 // Disable default Chart.js tooltip
-    //                 tooltip: {
-    //                     enabled: false
-    //                 }
-    //             },
-    //             onClick: (event, elements) => {
-    //                 // Only respond to clicks in group and student tabs
-    //                 if (currentTab !== 'activity' && elements.length > 0) {
-    //                     const index = elements[0].index;
-    //                     // Extract just the concept name without the percentage
-    //                     const concept = labels[index];
-    //                     showConceptMentions(concept);
-    //                 }
-    //             },
-    //             onHover: (event, elements) => {
-    //                 const tooltip = document.getElementById('mentionsTooltip');
-    //
-    //                 if (elements.length > 0) {
-    //                     const index = elements[0].index;
-    //                     const concept = labels[index];
-    //                     const value = data[index];
-    //                     const mentions = Math.round(value);
-    //
-    //                     // Position the tooltip near the hovered element
-    //                     const canvasPosition = event.native.target.getBoundingClientRect();
-    //                     const offsetX = event.native.offsetX;
-    //                     const offsetY = event.native.offsetY;
-    //
-    //                     tooltip.innerHTML = `${concept}<br>${mentions} mentions`;
-    //                     tooltip.style.display = 'block';
-    //                     tooltip.style.left = (offsetX + 10) + 'px';
-    //                     tooltip.style.top = (offsetY + 10) + 'px';
-    //                 } else {
-    //                     tooltip.style.display = 'none';
-    //                 }
-    //             }
-    //         }
-    //     });
-    //
-    //     // Remove any old HTML elements for labels that may have been added
-    //     const oldLabels = document.querySelectorAll('.pie-label');
-    //     oldLabels.forEach(label => label.remove());
-    // }
     function renderPieChart(conceptsData) {
         // Clear any existing chart
         if (myChart) {
@@ -1101,7 +909,7 @@
         let mentions;
         if (currentTab === 'group') {
             const groupData = mockData.groups[currentGroup]?.sessions[currentSession] ||
-                mockData.groups.group3.sessions["11/15/24"];
+                mockData.groups.othergroup.sessions["11/15/24"];
             mentions = groupData.mentions[concept] || [];
         } else if (currentTab === 'student') {
             const studentData = mockData.students[currentStudent]?.sessions[currentSession] ||
@@ -1110,7 +918,7 @@
         } else {
             // For activity tab, we'd handle similarly
             // Use default data for now
-            const groupData = mockData.groups.group3.sessions["11/15/24"];
+            const groupData = mockData.groups.othergroup.sessions["11/15/24"];
             mentions = groupData.mentions[concept] || [];
         }
 
@@ -1159,7 +967,7 @@
         let transcript;
         if (currentTab === 'group') {
             const groupData = mockData.groups[currentGroup]?.sessions[currentSession] ||
-                mockData.groups.group3.sessions["11/15/24"];
+                mockData.groups.othergroup.sessions["11/15/24"];
             transcript = groupData.transcript || [];
         } else if (currentTab === 'student') {
             const studentData = mockData.students[currentStudent]?.sessions[currentSession] ||
@@ -1168,7 +976,7 @@
         } else {
             // For activity tab, we'd handle similarly
             // Use default data for now
-            const groupData = mockData.groups.group3.sessions["11/15/24"];
+            const groupData = mockData.groups.othergroup.sessions["11/15/24"];
             transcript = groupData.transcript || [];
         }
 
@@ -1241,3 +1049,4 @@
 </script>
 </body>
 </html>
+
