@@ -17,8 +17,6 @@
             display: flex;
             background-color: white;
         }
-
-
         .main-content {
             flex: 1;
             padding: 20px 40px;
@@ -245,7 +243,7 @@
             padding: 15px 0;
             border-bottom: 1px solid #f0f0f0;
         }
-
+        /* New alternating gray background for transcript items */
         .transcript-item:nth-child(odd) {
             background-color: #f6f6f6;
         }
@@ -319,7 +317,6 @@
 <div class="main-content">
     <div class="content-wrapper">
         <div class="header">
-<!--            <div class="subject">Biology</div>-->
             <h1 class="title">Class Dashboard</h1>
             <div class="underline"></div>
         </div>
@@ -328,7 +325,7 @@
         <p class="section-description">
             View how key concepts were discussed during student sessions with an AI collaborator.<br>
             Filter by activity, group, or student level to explore patterns in participation.<br>
-             Hover over the Guide icon to learn how to interact with the chart.
+            Hover over the Guide icon to learn how to interact with the chart.
         </p>
 
 
@@ -397,7 +394,7 @@
                         <div class="info-icon" onmouseover="showTooltip('chartTooltip')" onmouseout="hideTooltip('chartTooltip')">
                             <i class="bi bi-question-circle-fill"></i> Guide
                         </div>
-<!--                        <div class="info-icon" onmouseover="showTooltip('chartTooltip')" onmouseout="hideTooltip('chartTooltip')">i</div>-->
+                        <!--                        <div class="info-icon" onmouseover="showTooltip('chartTooltip')" onmouseout="hideTooltip('chartTooltip')">i</div>-->
                         <div id="chartTooltip" class="tooltip">
                             <p><strong>Interaction Guide:</strong></p>
                             <p>• Hover over a pie section to see the number of key mentions</p>
@@ -414,7 +411,7 @@
             <div id="mentionsContainer" class="mentions-container">
                 <div class="mentions-title">
                     <h3 id="mentionsTitle">Mentions of Photosynthesis</h3>
-<!--                    <div class="info-icon">i</div>-->
+                    <!--                    <div class="info-icon">i</div>-->
                     <i class="bi bi-question-circle-fill info-icon"></i>
                     <div class="mentions-tooltip">Click on student name to view transcript</div>
                 </div>
@@ -436,9 +433,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Main Dashboard Manager Object
-        const AnalyticsDashboard = {
-            // Mock data store - would be replaced with API calls in production
+        // ============= Dashboard Management =============
+        const DashboardVisualization = {
+            // Mock data
             mockData: {
                 activities: {
                     activity1: {
@@ -691,7 +688,7 @@
                 chartTooltipVisible: false
             },
 
-            // Color schemes for the pie chart
+            // Pie chart colors
             chartColors: [
                 'rgb(106, 198, 212)', // Photosynthesis (teal)
                 'rgb(231, 123, 141)', // Glucose (pink/red)
@@ -700,11 +697,7 @@
                 'rgb(108, 148, 231)'  // Chlorophyll (blue)
             ],
 
-            // =============================================================
-            // Initialization Methods
-            // =============================================================
-
-            // Main initialization method - entry point for the dashboard
+            // Initialize Class Dashboard system
             init() {
                 this.switchTab('activity');
                 this.updateCharts();
@@ -1134,13 +1127,13 @@
         };
 
         // Initialize the dashboard
-        AnalyticsDashboard.init();
+        DashboardVisualization.init();
 
         // Set initialization function for window.onload to maintain compatibility
         window.onload = function() {
             // Set default tab to activity to match your requirement
-            AnalyticsDashboard.state.currentTab = 'activity';
-            AnalyticsDashboard.init();
+            DashboardVisualization.state.currentTab = 'activity';
+            DashboardVisualization.init();
         };
     });
 </script>
